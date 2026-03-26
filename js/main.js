@@ -1,3 +1,47 @@
+// ============================================================
+// PRELOADER REVEAL LOGIC
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Lock the scroll immediately so they can't break the illusion
+  document.body.classList.add('loading-lock');
+  
+  let count = 0;
+  const counterElement = document.getElementById('loader-count');
+  const barElement = document.getElementById('loader-bar');
+  const preloader = document.getElementById('premium-preloader');
+  
+  // Rapid fire counting interval
+  let timer = setInterval(() => {
+    // Randomize the jump so it looks like real data loading, not a fake timer
+    count += Math.floor(Math.random() * 4) + 1; 
+    
+    if (count > 100) count = 100;
+    
+    counterElement.innerText = count;
+    barElement.style.width = count + '%';
+    
+    // When it hits 100%
+    if (count === 100) {
+      clearInterval(timer);
+      
+      // Pause for a fraction of a second at 100% for maximum psychological impact
+      setTimeout(() => {
+        // Trigger the slide up animation
+        preloader.classList.add('loaded');
+        
+        // Unlock the body so they can scroll the site
+        document.body.classList.remove('loading-lock');
+        
+        // Remove the preloader from the DOM completely after the animation finishes
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 1200); // Matches the 1.2s CSS transition
+        
+      }, 450); 
+    }
+  }, 18); // Speed of the tick (lower is faster)
+});
+
 /* ============================================================
    CURSOR
 ============================================================ */
