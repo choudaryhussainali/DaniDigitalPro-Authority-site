@@ -1,0 +1,466 @@
+/* ============================================================
+   INSIGHTS.CSS - STANDALONE MASTER FILE
+============================================================ */
+
+/* --- 1. RESET & VARIABLES --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg: #080808;
+  --bg2: #0d0d0d;
+  --bg3: #111111;
+  --surface: #161616;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --white: #ffffff;
+  --off: #f0ece4;
+  --muted: #6b6b6b;
+  --muted2: #999;
+  --gold: #c9a84c;
+  --gold2: #e8c96d;
+  --gold-dim: rgba(201,168,76,0.08);
+  --gold-border: rgba(201,168,76,0.2);
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none; /* Hides the default mouse */
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+/* ============================================================
+   NOISE OVERLAY
+============================================================ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  z-index: 9990; pointer-events: none;
+}
+
+/* ============================================================
+   CANVAS (PARTICLES)
+============================================================ */
+#particles {
+  position: fixed; inset: 0;
+  z-index: 0; pointer-events: none;
+  opacity: 0.4;
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+============================================================ */
+.cursor {
+  position: fixed; z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--gold2);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0; /* Establishes the 0,0 grid for JavaScript tracking */
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+  z-index: 99999 !important; /* Forces it over the 10001 drawer */
+  pointer-events: none;
+  opacity: 1;
+}
+
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0; /* Establishes the 0,0 grid for JavaScript tracking */
+  transform: translate(-50%, -50%);
+  transition: all 0.12s ease;
+  z-index: 99998 !important; /* Forces it over the 10001 drawer */
+  pointer-events: none;
+  opacity: 1;
+}
+body:hover .cursor-dot { opacity: 1; }
+
+/* Hide default cursor globally */
+body, a, button { cursor: none !important; }
+
+/* --- 2. GLOBAL UTILITIES --- */
+a { text-decoration: none; color: inherit; }
+.section { padding: 100px 64px; position: relative; }
+.section-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+.pt-0 { padding-top: 0 !important; }
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.mt-auto { margin-top: auto; }
+
+/* ============================================================
+   NAV
+============================================================ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 28px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s ease;
+}
+nav.scrolled {
+  padding: 18px 64px;
+  background: rgba(8,8,8,0.94);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: var(--off);
+  text-decoration: none;
+}
+.nav-logo .dot { color: var(--gold); }
+.nav-links {
+  display: flex; gap: 40px; list-style: none;
+  position: absolute; left: 50%; transform: translateX(-50%);
+}
+.nav-links a {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted2);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.3s ease;
+}
+.nav-links a:hover { color: var(--off); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav-cta {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 11px 24px; border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  position: relative; overflow: hidden;
+}
+.nav-cta::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gold2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.nav-cta:hover::after { transform: translateX(0); }
+.nav-cta span { position: relative; z-index: 1; }
+
+/* --- 4. HEADER & TYPOGRAPHY --- */
+.insights-header { padding-top: 180px; padding-bottom: 60px; }
+.label {
+  font-family: 'Syne', sans-serif; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 24px; display: inline-flex; align-items: center; gap: 12px;
+}
+.label::before, .label::after { content: ''; width: 28px; height: 1px; background: var(--gold); }
+.header-h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; color: var(--off);
+  margin-bottom: 24px;
+}
+.header-p { font-size: 1.05rem; color: var(--muted2); max-width: 600px; line-height: 1.8; font-weight: 300; }
+
+/* --- 5. ANIMATIONS (ISOLATED) --- */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+
+/* --- 6. FEATURED INSIGHT (HERO ARTICLE) --- */
+.featured-card {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r2); overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  margin-bottom: 64px;
+}
+.featured-card:hover {
+  border-color: var(--gold-border); transform: translateY(-4px);
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6);
+}
+.featured-image { width: 100%; height: 100%; min-height: 400px; overflow: hidden; background: #050505; }
+.featured-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(80%) opacity(0.7); transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.featured-card:hover .featured-image img { filter: grayscale(0%) opacity(1); transform: scale(1.05); }
+.featured-content { padding: 64px 48px; display: flex; flex-direction: column; justify-content: center; }
+.featured-title {
+  font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700;
+  color: var(--off); margin-bottom: 24px; line-height: 1.25; transition: color 0.3s ease;
+}
+.featured-excerpt { font-size: 0.95rem; color: var(--muted2); line-height: 1.75; margin-bottom: 32px; font-weight: 300; }
+
+/* --- 7. INSIGHTS GRID --- */
+.insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.insight-card {
+  display: flex; flex-direction: column; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.insight-card:hover {
+  border-color: var(--gold-border); transform: translateY(-6px);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5); background: rgba(255, 255, 255, 0.02);
+}
+.insight-image { width: 100%; height: 220px; overflow: hidden; background: #050505; }
+.insight-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(85%) opacity(0.75); transition: all 0.7s;
+}
+.insight-card:hover .insight-image img { filter: grayscale(0%) opacity(1); transform: scale(1.05); }
+.insight-content { padding: 32px; display: flex; flex-direction: column; flex-grow: 1; }
+
+.insight-meta {
+  font-family: 'Syne', sans-serif; font-size: 0.65rem; font-weight: 700;
+  color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 16px; display: flex; gap: 8px; align-items: center;
+}
+.dot-sep { opacity: 0.5; }
+.insight-title {
+  font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+  color: var(--off); margin-bottom: 16px; line-height: 1.35; transition: color 0.3s ease;
+}
+.insight-excerpt { font-size: 0.9rem; color: var(--muted2); line-height: 1.6; margin-bottom: 32px; flex-grow: 1; font-weight: 300; }
+
+/* ============================================================
+   PREMIUM "READ MORE" MICRO-INTERACTION
+============================================================ */
+.insight-read-more {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  width: max-content; /* Constrains the width for the underline effect */
+  cursor: pointer;
+}
+
+/* The Text Sweep Effect */
+.read-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  transition: color 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* The Invisible Underline */
+.read-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* The SVG Arrow Snap */
+.read-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.read-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--muted);
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), stroke 0.4s ease;
+}
+
+/* -----------------------------------------
+   THE HOVER TRIGGERS (When the card is hovered)
+----------------------------------------- */
+/* 1. Text turns gold */
+.insight-card:hover .read-text,
+.featured-card:hover .read-text {
+  color: var(--gold);
+}
+
+/* 2. Underline sweeps from the left */
+.insight-card:hover .read-text::after,
+.featured-card:hover .read-text::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* 3. Arrow snaps to the right and turns gold */
+.insight-card:hover .read-icon svg,
+.featured-card:hover .read-icon svg {
+  transform: translateX(6px);
+  stroke: var(--gold);
+}
+.insight-read-more .arrow { transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
+.featured-card:hover .insight-read-more, .insight-card:hover .insight-read-more { color: var(--gold); }
+.featured-card:hover .insight-read-more .arrow, .insight-card:hover .insight-read-more .arrow { transform: translateX(6px); }
+
+/* --- 8. FOOTER --- */
+footer { border-top: 1px solid var(--border); padding: 48px 64px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--off); }
+.footer-logo .dot { color: var(--gold); }
+.footer-copy { font-family: 'Syne', sans-serif; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; }
+
+/* --- 9. RESPONSIVE --- */
+@media (max-width: 1024px) {
+  nav { padding: 20px 32px; }
+  nav.scrolled { padding: 14px 32px; }
+  .nav-links { display: none; }
+  .section { padding-left: 32px; padding-right: 32px; }
+  .insights-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .featured-card { grid-template-columns: 1fr; }
+  .featured-image { min-height: 250px; }
+  .featured-content { padding: 40px 32px; }
+}
+@media (max-width: 768px) {
+  .insights-grid { grid-template-columns: 1fr; }
+  .insight-image { height: 200px; }
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  footer { padding: 40px 32px; }
+}
+
+
+
+/* ============================================================
+   EDITORIAL SLIDE-OUT DRAWER
+============================================================ */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(10px); /* Premium glass blur */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 10000;
+}
+
+.drawer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.article-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 750px; /* Optimal reading width so lines aren't too long */
+  height: 100vh;
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  box-shadow: -30px 0 60px rgba(0,0,0,0.7);
+  z-index: 10001;
+  transform: translateX(100%); /* Hidden off-screen to the right */
+  transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.article-drawer.active {
+  transform: translateX(0); /* Slides in */
+}
+
+/* The Gold Close Button */
+.drawer-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1;
+  z-index: 10;
+  transition: color 0.3s, transform 0.3s;
+}
+
+/* Hide default cursor on the close button to use your custom gold cursor */
+.drawer-close { cursor: none !important; }
+
+.drawer-close:hover {
+  color: var(--gold);
+  transform: scale(1.1) rotate(90deg); /* Subtle premium twist */
+}
+
+/* Typography Inside the Reader */
+.drawer-scroll-area {
+  overflow-y: auto;
+  padding: 80px 64px;
+  height: 100%;
+}
+
+.drawer-scroll-area::-webkit-scrollbar { width: 4px; }
+.drawer-scroll-area::-webkit-scrollbar-thumb { background: var(--gold); }
+
+.drawer-tag {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  display: block;
+}
+
+.drawer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--off);
+  margin-bottom: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-body {
+  padding-bottom: 80px; /* Gives breathing room at the bottom */
+}
+
+/* Mobile Adjustments for Drawer */
+@media (max-width: 768px) {
+  .drawer-scroll-area { padding: 60px 32px; }
+  .drawer-title { font-size: 2rem; padding-bottom: 32px; margin-bottom: 32px;}
+  .drawer-close { top: 16px; right: 16px; font-size: 2.5rem; }
+}

@@ -1,45 +1,37 @@
 // ============================================================
 // PRELOADER REVEAL LOGIC
 // ============================================================
+// ============================================================
+// PRELOADER REVEAL LOGIC (SAFEGUARDED)
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Lock the scroll immediately so they can't break the illusion
-  document.body.classList.add('loading-lock');
-  
-  let count = 0;
-  const counterElement = document.getElementById('loader-count');
-  const barElement = document.getElementById('loader-bar');
   const preloader = document.getElementById('premium-preloader');
   
-  // Rapid fire counting interval
-  let timer = setInterval(() => {
-    // Randomize the jump so it looks like real data loading, not a fake timer
-    count += Math.floor(Math.random() * 4) + 1; 
+  // ONLY run this if the preloader exists on the current page
+  if (preloader) {
+    document.body.classList.add('loading-lock');
     
-    if (count > 100) count = 100;
+    let count = 0;
+    const counterElement = document.getElementById('loader-count');
+    const barElement = document.getElementById('loader-bar');
     
-    counterElement.innerText = count;
-    barElement.style.width = count + '%';
-    
-    // When it hits 100%
-    if (count === 100) {
-      clearInterval(timer);
+    let timer = setInterval(() => {
+      count += Math.floor(Math.random() * 4) + 1; 
+      if (count > 100) count = 100;
       
-      // Pause for a fraction of a second at 100% for maximum psychological impact
-      setTimeout(() => {
-        // Trigger the slide up animation
-        preloader.classList.add('loaded');
-        
-        // Unlock the body so they can scroll the site
-        document.body.classList.remove('loading-lock');
-        
-        // Remove the preloader from the DOM completely after the animation finishes
+      counterElement.innerText = count;
+      barElement.style.width = count + '%';
+      
+      if (count === 100) {
+        clearInterval(timer);
         setTimeout(() => {
-          preloader.style.display = 'none';
-        }, 1200); // Matches the 1.2s CSS transition
-        
-      }, 450); 
-    }
-  }, 18); // Speed of the tick (lower is faster)
+          preloader.classList.add('loaded');
+          document.body.classList.remove('loading-lock');
+          setTimeout(() => { preloader.style.display = 'none'; }, 1200); 
+        }, 450); 
+      }
+    }, 18);
+  }
 });
 
 /* ============================================================
