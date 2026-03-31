@@ -1,37 +1,64 @@
-// ============================================================
-// PRELOADER REVEAL LOGIC
-// ============================================================
-// ============================================================
-// PRELOADER REVEAL LOGIC (SAFEGUARDED)
-// ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-  const preloader = document.getElementById('premium-preloader');
+document.addEventListener("DOMContentLoaded", () => {
   
-  // ONLY run this if the preloader exists on the current page
-  if (preloader) {
-    document.body.classList.add('loading-lock');
+  // ============================================================
+  // ENTERPRISE GRAPH PRELOADER
+  // ============================================================
+  const preloader = document.getElementById('premium-preloader');
+  const countEl = document.getElementById('loader-count');
+  const growthLine = document.getElementById('growth-line');
+  const graphFill = document.getElementById('graph-fill');
+  
+  if (preloader && countEl && growthLine && graphFill) {
+    document.body.classList.add('loading-lock'); // Lock scroll
     
-    let count = 0;
-    const counterElement = document.getElementById('loader-count');
-    const barElement = document.getElementById('loader-bar');
+    let progress = 0;
+    const totalPathLength = 400; // Matches CSS stroke-dasharray
     
-    let timer = setInterval(() => {
-      count += Math.floor(Math.random() * 4) + 1; 
-      if (count > 100) count = 100;
+    growthLine.style.strokeDashoffset = totalPathLength;
+    graphFill.style.width = '0%';
+
+    // SLOWED DOWN: Changed interval from 25ms to 45ms
+    const interval = setInterval(() => {
       
-      counterElement.innerText = count;
-      barElement.style.width = count + '%';
+      // SLOWED DOWN: Now it only jumps by 1% or 2% at a time (used to be up to 3%)
+      progress += Math.floor(Math.random() * 2) + 1; 
       
-      if (count === 100) {
-        clearInterval(timer);
+      if (progress > 100) progress = 100;
+
+      // 1. Update the huge gold number
+      countEl.innerText = progress;
+
+      // 2. Draw the SVG curve
+      const offset = totalPathLength - ((progress / 100) * totalPathLength);
+      growthLine.style.strokeDashoffset = offset;
+
+      // 3. Expand the glowing gradient box beneath the line
+      graphFill.style.width = progress + '%';
+
+      if (progress === 100) {
+        clearInterval(interval);
+        
+        // LINGER EFFECT: Waits slightly longer at 100% so the user can absorb the visual
         setTimeout(() => {
           preloader.classList.add('loaded');
-          document.body.classList.remove('loading-lock');
-          setTimeout(() => { preloader.style.display = 'none'; }, 1200); 
-        }, 450); 
+          // ==========================================
+          // TRIGGER HERO ANIMATION HERE
+          // ==========================================
+          const heroElements = document.querySelectorAll('.hero-elem');
+          heroElements.forEach(el => el.classList.add('animate'));
+          // ==========================================
+          
+          // Unlock the scroll once the preloader slides away
+          setTimeout(() => {
+            document.body.classList.remove('loading-lock');
+          }, 800); 
+          
+        }, 800); // Increased from 600ms to 800ms
       }
-    }, 18);
+    }, 45); // <-- This is the master speed control. Increase to 60 to make it even slower.
   }
+
+  // ... rest of your main.js code below ...
 });
 
 /* ============================================================

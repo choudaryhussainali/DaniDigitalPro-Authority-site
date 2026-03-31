@@ -90,6 +90,12 @@ const articleDatabase = {
 
       <h3 style="font-family: 'Syne', sans-serif; font-size: 1.4rem; color: #ffffff; margin-top: 40px; margin-bottom: 16px;">2. Trust Injection & Friction Removal</h3>
       <p style="color: #999; line-height: 1.8; margin-bottom: 24px;">Vague shipping policies kill intent. Replace standard copy with definitive statements: "Order within 2 hours for dispatch today. Delivery by Friday." Pair this with accelerated checkout options (Apple Pay, Shop Pay) to bypass form fatigue.</p>
+      
+      <div style="margin-top: 64px; padding: 40px; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; text-align: center;">
+        <h4 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c9a84c; margin-bottom: 12px;">Is your landing page leaking money?</h4>
+        <p style="color: #999; margin-bottom: 24px;">Let's audit your post-click architecture and remove the friction.</p>
+        <a href="index.html#apply" style="display: inline-block; background: #c9a84c; color: #000; padding: 12px 24px; font-family: 'Syne', sans-serif; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.08em; text-decoration: none; border-radius: 4px;">Book Strategy Call</a>
+      </div>
     `
   },
 
@@ -107,6 +113,12 @@ const articleDatabase = {
 
       <h3 style="font-family: 'Syne', sans-serif; font-size: 1.4rem; color: #ffffff; margin-top: 40px; margin-bottom: 16px;">Zero-Party Data Collection</h3>
       <p style="color: #999; line-height: 1.8; margin-bottom: 24px;">The smartest brands are now acquiring data explicitly given by the user via interactive quizzes and onboarding flows. This allows for hyper-personalized email and SMS retention strategies that ad platforms cannot touch.</p>
+      
+      <div style="margin-top: 64px; padding: 40px; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; text-align: center;">
+        <h4 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c9a84c; margin-bottom: 12px;">Are you losing attribution data?</h4>
+        <p style="color: #999; margin-bottom: 24px;">Let's build a bulletproof server-side tracking infrastructure for your brand.</p>
+        <a href="index.html#apply" style="display: inline-block; background: #c9a84c; color: #000; padding: 12px 24px; font-family: 'Syne', sans-serif; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.08em; text-decoration: none; border-radius: 4px;">Book Strategy Call</a>
+      </div>
     `
   },
 
@@ -124,6 +136,12 @@ const articleDatabase = {
       
       <h3 style="font-family: 'Syne', sans-serif; font-size: 1.4rem; color: #ffffff; margin-top: 40px; margin-bottom: 16px;">Calculating Your Maximum CAC</h3>
       <p style="color: #999; line-height: 1.8; margin-bottom: 24px;">Target CPA should not be a guess. It is derived mathematically: (Gross Margin $) * (Average Order Value) * (Purchase Frequency). Once you know this number, you set the ad account to acquire volume ruthlessly up to that exact threshold.</p>
+      
+      <div style="margin-top: 64px; padding: 40px; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; text-align: center;">
+        <h4 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c9a84c; margin-bottom: 12px;">Want to scale with mathematical certainty?</h4>
+        <p style="color: #999; margin-bottom: 24px;">Let's calculate your exact CAC thresholds and build a compounding growth engine.</p>
+        <a href="index.html#apply" style="display: inline-block; background: #c9a84c; color: #000; padding: 12px 24px; font-family: 'Syne', sans-serif; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.08em; text-decoration: none; border-radius: 4px;">Book Strategy Call</a>
+      </div>
     `
   },
 
@@ -141,6 +159,12 @@ const articleDatabase = {
 
       <h3 style="font-family: 'Syne', sans-serif; font-size: 1.4rem; color: #ffffff; margin-top: 40px; margin-bottom: 16px;">The 3-Second Hook Architecture</h3>
       <p style="color: #999; line-height: 1.8; margin-bottom: 24px;">The hook must call out the core pain point visually while resolving the objection audibly. If your video does not validate the user's problem before the 3-second mark, the algorithm will penalize your CPMs due to low retention.</p>
+      
+      <div style="margin-top: 64px; padding: 40px; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; text-align: center;">
+        <h4 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c9a84c; margin-bottom: 12px;">Are your creatives fatiguing?</h4>
+        <p style="color: #999; margin-bottom: 24px;">Let's script and deploy direct-response assets that actually convert.</p>
+        <a href="index.html#apply" style="display: inline-block; background: #c9a84c; color: #000; padding: 12px 24px; font-family: 'Syne', sans-serif; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.08em; text-decoration: none; border-radius: 4px;">Book Strategy Call</a>
+      </div>
     `
   },
 
@@ -158,6 +182,12 @@ const articleDatabase = {
       
       <h3 style="font-family: 'Syne', sans-serif; font-size: 1.4rem; color: #ffffff; margin-top: 40px; margin-bottom: 16px;">The Risk Reversal Guarantee</h3>
       <p style="color: #999; line-height: 1.8; margin-bottom: 24px;">Standard 30-day return policies do not convert. Bold guarantees ("Results in 14 days or we refund you and buy a competitor's product for you") spike conversion rates so high that the inevitable slight increase in refunds is completely eclipsed by the revenue surge.</p>
+      
+      <div style="margin-top: 64px; padding: 40px; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; text-align: center;">
+        <h4 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c9a84c; margin-bottom: 12px;">Is your offer failing to convert cold traffic?</h4>
+        <p style="color: #999; margin-bottom: 24px;">Let's design an irresistible value stack that makes buying a no-brainer.</p>
+        <a href="index.html#apply" style="display: inline-block; background: #c9a84c; color: #000; padding: 12px 24px; font-family: 'Syne', sans-serif; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.08em; text-decoration: none; border-radius: 4px;">Book Strategy Call</a>
+      </div>
     `
   },
 
@@ -175,6 +205,12 @@ const articleDatabase = {
 
       <h3 style="font-family: 'Syne', sans-serif; font-size: 1.4rem; color: #ffffff; margin-top: 40px; margin-bottom: 16px;">2. The Replenishment Trigger</h3>
       <p style="color: #999; line-height: 1.8; margin-bottom: 24px;">If your product lasts 30 days, your automated flow must trigger on day 24. It shouldn't be a generic "buy again" prompt, but rather an educational reminder of the compounding benefits of continuing the routine.</p>
+      
+      <div style="margin-top: 64px; padding: 40px; background: rgba(201,168,76,0.05); border: 1px solid rgba(201,168,76,0.2); border-radius: 12px; text-align: center;">
+        <h4 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #c9a84c; margin-bottom: 12px;">Leaving backend money on the table?</h4>
+        <p style="color: #999; margin-bottom: 24px;">Let's build the automated email sequences that double your Lifetime Value.</p>
+        <a href="index.html#apply" style="display: inline-block; background: #c9a84c; color: #000; padding: 12px 24px; font-family: 'Syne', sans-serif; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.08em; text-decoration: none; border-radius: 4px;">Book Strategy Call</a>
+      </div>
     `
   },
 

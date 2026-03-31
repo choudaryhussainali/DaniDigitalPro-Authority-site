@@ -15,16 +15,34 @@
 <body>
 
 <div id="premium-preloader" class="preloader-container">
-    <div class="preloader-content">
-      <span class="preloader-brand">Dani Digital Pro</span>
+  <div class="preloader-inner">
+    
+    <div class="preloader-brand-wrap">
+      <h1 class="preloader-brand">Dani Digital Pro<span class="dot">.</span></h1>
+      <div class="preloader-sub">Revenue Growth Architect</div>
+    </div>
+
+    <div class="preloader-graph-wrap">
+      <svg class="preloader-graph" viewBox="0 0 300 100" preserveAspectRatio="none">
+        <line x1="0" y1="25" x2="300" y2="25" class="grid-line"></line>
+        <line x1="0" y1="50" x2="300" y2="50" class="grid-line"></line>
+        <line x1="0" y1="75" x2="300" y2="75" class="grid-line"></line>
+        
+        <path id="growth-line" d="M0,90 C100,90 150,50 300,10" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linecap="round"></path>
+      </svg>
+      
+      <div class="graph-fill-overlay" id="graph-fill"></div>
+    </div>
+
+    <div class="preloader-metrics">
+      <div class="metric-text">Compounding Data...</div>
       <div class="preloader-counter">
         <span id="loader-count">0</span><span class="preloader-percent">%</span>
       </div>
-      <div class="preloader-bar-container">
-        <div class="preloader-bar" id="loader-bar"></div>
-      </div>
     </div>
+
   </div>
+</div>
 
 <!-- Cursor -->
 <div class="cursor-dot" id="cursorDot"></div>
@@ -57,23 +75,23 @@
   <div class="hero-line-right"></div>
   <div class="hero-inner">
     <div>
-      <div class="hero-tag">
+      <div class="hero-tag hero-elem">
         <div class="hero-tag-dot"></div>
         <div class="hero-tag-text">Revenue Growth Architect</div>
       </div>
-      <h1 class="hero-h1">
+      <h1 class="hero-h1 hero-elem hero-delay-1">
         Scaling Brands with<br>
         <em>AI Data-Driven</em>
         Paid Advertising.
       </h1>
-      <p class="hero-sub">PPC, Meta Ads & Social Media Growth engineered to turn <strong>attention into predictable revenue</strong> — for ambitious brands worldwide.</p>
-      <div class="hero-actions">
+      <p class="hero-sub hero-elem hero-delay-2">PPC, Meta Ads & Social Media Growth engineered to turn <strong>attention into predictable revenue</strong> — for ambitious brands worldwide.</p>
+      <div class="hero-actions hero-elem hero-delay-3">
         <a href="#apply" class="btn-gold">Book Strategy Call <span>→</span></a>
         <a href="#results" class="btn-outline">View Case Studies</a>
       </div>
-      <p class="hero-microcopy">Trusted by growth-focused brands. Based in Lahore. Operating globally.</p>
+      <p class="hero-microcopy hero-elem hero-delay-4">Trusted by growth-focused brands. Based in Lahore. Operating globally.</p>
     </div>
-    <div class="hero-card">
+    <div class="hero-card hero-elem hero-delay-3">
       <div class="hero-card-photo">
         <img src="images/hero.png" alt="Daniyal - Digital Growth Architect" class="real-hero-img">
       </div>
