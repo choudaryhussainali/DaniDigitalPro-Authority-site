@@ -1,0 +1,1147 @@
+/* ============================================================
+   TRAININGS.CSS - MASTER FILE
+============================================================ */
+
+/* --- 1. RESET, VARIABLES & GLOBALS --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+:root {
+  --bg: #080808; --bg2: #0d0d0d; --bg3: #111111; --surface: #161616;
+  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+  --white: #ffffff; --off: #f0ece4; --muted: #6b6b6b; --muted2: #999;
+  --gold: #c9a84c; --gold2: #e8c96d; --gold-dim: rgba(201,168,76,0.08);
+  --gold-border: rgba(201,168,76,0.2);
+}
+
+body {
+  background: var(--bg); color: var(--white);
+  font-family: 'DM Sans', sans-serif; line-height: 1.6;
+  overflow-x: hidden; cursor: none;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025; z-index: 9990; pointer-events: none;
+}
+
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
+
+/* --- CURSOR --- */
+body, a, button { cursor: none !important; }
+.cursor-dot {
+  width: 8px; height: 8px; background: var(--gold2); border-radius: 50%;
+  position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+  z-index: 99999 !important; pointer-events: none; opacity: 1; transition: opacity 0.2s ease;
+}
+.cursor-ring {
+  width: 40px; height: 40px; border: 1px solid rgba(201,168,76,0.5); border-radius: 50%;
+  position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+  z-index: 99998 !important; pointer-events: none; opacity: 1;
+  transition: width 0.2s, height 0.2s, background-color 0.2s, opacity 0.2s;
+}
+a:hover ~ .cursor-ring, button:hover ~ .cursor-ring { width: 60px; height: 60px; background: rgba(201,168,76,0.05); }
+
+/* --- UTILITIES --- */
+
+/* --- GLOBAL SECTION HEADINGS (Restored) --- */
+.label { 
+  font-family: 'Syne', sans-serif; 
+  font-size: 0.68rem; 
+  font-weight: 700; 
+  letter-spacing: 0.16em; 
+  text-transform: uppercase; 
+  color: var(--gold); 
+  margin-bottom: 24px; 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 12px; 
+}
+
+.label::before, .label::after { 
+  content: ''; 
+  width: 28px; 
+  height: 1px; 
+  background: var(--gold); 
+}
+
+.header-h1 { 
+  font-family: 'Playfair Display', serif; 
+  font-size: clamp(3rem, 6vw, 5rem); 
+  font-weight: 900; 
+  line-height: 1.05; 
+  letter-spacing: -0.02em; 
+  color: var(--off); 
+  margin-bottom: 24px; 
+}
+
+.header-h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+a { text-decoration: none; color: inherit; }
+.section { padding: 100px 64px; position: relative; z-index: 2; }
+.section-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+.pt-0 { padding-top: 0 !important; }
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.w-100 { width: 100%; text-align: center; display: inline-flex; justify-content: center; }
+
+/* --- NAVIGATION --- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 28px 64px; display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.4s ease;
+}
+nav.scrolled { padding: 18px 64px; background: rgba(8,8,8,0.94); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--off); }
+.nav-logo .dot { color: var(--gold); }
+.nav-links { display: flex; gap: 40px; list-style: none; position: absolute; left: 50%; transform: translateX(-50%); }
+.nav-links a { font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted2); transition: color 0.2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease; }
+.nav-links a:hover { color: var(--off); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+.btn-gold, .nav-cta {
+  font-family: 'Syne', sans-serif; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--bg);
+  background: var(--gold); padding: 14px 28px; border-radius: 4px;
+  transition: all 0.25s ease; position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-gold::after, .nav-cta::after { content: ''; position: absolute; inset: 0; background: var(--gold2); transform: translateX(-100%); transition: transform 0.3s ease; }
+.btn-gold:hover::after, .nav-cta:hover::after { transform: translateX(0); }
+.btn-gold span, .nav-cta span { position: relative; z-index: 1; }
+
+/* --- HEADER & ANIMATIONS --- */
+
+
+/* ============================================================
+   HEADER (Million-Dollar Blueprint) & GLOBAL ANIMATIONS
+============================================================ */
+
+/* --- 1. GLOBAL REVEAL ANIMATIONS (Crucial for the whole page) --- */
+.reveal { 
+  opacity: 0; 
+  transform: translateY(30px); 
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1); 
+}
+
+.reveal.active { 
+  opacity: 1; 
+  transform: none !important; /* The !important fixes the sticky card bug */
+}
+
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.3s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+
+
+/* --- 2. THE BLUEPRINT HERO --- */
+.academy-hero {
+  padding-top: 220px;
+  padding-bottom: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Deep Radial Glow behind the text */
+.hero-glow-core {
+  position: absolute;
+  top: -20%;
+  left: 10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* The Top Status Bar */
+.hero-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid var(--gold-border);
+  padding: 8px 16px;
+  border-radius: 40px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+}
+
+/* The Pulsing Gold Dot */
+.pulse-dot-gold {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+  0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(201,168,76,0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+}
+
+.status-line {
+  flex-grow: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+.status-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Massive Typography */
+.hero-massive-h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 8vw, 7.5rem);
+  font-weight: 900;
+  color: var(--off);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin-bottom: 0;
+}
+
+.hero-massive-h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* Offset Description Grid */
+.hero-meta-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 64px;
+  margin-top: 80px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+
+.hm-desc p {
+  font-size: 1.15rem;
+  color: var(--muted2);
+  line-height: 1.8;
+  max-width: 650px;
+  font-weight: 300;
+}
+
+.hm-stats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 40px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 1.4;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1024px) {
+  .hero-meta-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hm-stats { justify-content: flex-start; }
+}
+
+@media (max-width: 768px) {
+  .academy-hero { padding-top: 160px; }
+  .hero-status-bar { flex-wrap: wrap; }
+  .status-line { display: none; }
+  .hm-stats { gap: 24px; }
+}
+/* ============================================================
+   TRANSFORMATION PATHWAY SECTION
+============================================================ */
+/* The Split Value Card */
+.pathway-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.pathway-glow {
+  position: absolute;
+  bottom: -50%;
+  left: -20%;
+  width: 80%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pathway-left {
+  padding: 64px 48px;
+  border-right: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.pathway-h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--off);
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+.pathway-p {
+  font-size: 0.95rem;
+  color: var(--muted2);
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+/* The Pill Tags */
+.pathway-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pathway-tags span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border2);
+  padding: 8px 16px;
+  border-radius: 40px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.pathway-tags span svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--gold);
+}
+
+.pathway-tags span:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold-border);
+  color: var(--gold2);
+}
+
+/* Right Side Features */
+.pathway-right {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.pf-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.pf-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px rgba(201,168,76,0.05);
+}
+
+.pf-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.pf-content h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--off);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.pf-content p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Testimonial Block */
+.testimonial-card {
+  background: rgba(255,255,255,0.01);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 64px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 6rem;
+  color: var(--gold);
+  line-height: 0;
+  margin-bottom: 24px;
+  opacity: 0.4;
+}
+
+.test-text {
+  font-size: 1.1rem;
+  color: var(--muted2);
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+  font-style: italic;
+}
+
+.test-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+}
+
+.author-avatar {
+  width: 50px;
+  height: 50px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+.author-avatar span { color: var(--off); }
+
+.author-meta h4 {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  color: var(--off);
+  margin-bottom: 2px;
+}
+
+.author-meta p {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 900px) {
+  .pathway-grid { grid-template-columns: 1fr; }
+  .pathway-left { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 32px; }
+  .pathway-right { padding: 40px 32px; }
+  .testimonial-card { padding: 48px 32px; }
+  .test-text { font-size: 1rem; }
+}
+
+
+/* --- FOOTER --- */
+footer { border-top: 1px solid var(--border); padding: 48px 64px; position: relative; z-index: 2;}
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--off); }
+.footer-logo .dot { color: var(--gold); }
+.footer-copy { font-family: 'Syne', sans-serif; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+  nav { padding: 20px 32px; } nav.scrolled { padding: 14px 32px; }
+  .nav-links { display: none; }
+  .section { padding-left: 32px; padding-right: 32px; }
+  .course-container { grid-template-columns: 1fr; gap: 40px; }
+  .enroll-card { position: relative; top: 0; }
+  .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+  footer { padding: 40px 32px; }
+}
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   ELITE MASTERCLASS VAULT (Unified Course Cards)
+============================================================ */
+.elite-vault {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transition: border-color 0.4s ease, transform 0.4s ease;
+  margin-bottom: 64px;
+}
+
+.elite-vault:hover {
+  border-color: var(--gold-border);
+  transform: translateY(-4px);
+}
+
+/* --- Vault Header --- */
+.vault-header {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 48px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.01);
+}
+
+.vault-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,168,76,0.3);
+  line-height: 0.8;
+}
+
+.vault-title-wrapper { display: flex; flex-direction: column; gap: 8px; }
+
+.vault-tag {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+
+.vault-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--off);
+  line-height: 1.1;
+}
+
+/* --- Vault Body (Fixes the Height Imbalance) --- */
+.vault-body {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  padding: 48px;
+}
+
+.vault-desc {
+  font-size: 1rem;
+  color: var(--muted2);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  max-width: 95%;
+}
+
+/* The 2-Column Module Grid */
+.vault-modules {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.v-module {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s ease;
+}
+
+.elite-vault:hover .v-module { border-color: rgba(255,255,255,0.08); }
+.v-module:hover { border-color: var(--gold-border) !important; background: rgba(201,168,76,0.05); transform: translateX(4px); }
+
+.vm-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.vm-text { font-size: 0.85rem; color: var(--off); font-weight: 500; }
+
+/* Right Side Target Info */
+.vault-target {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 48px;
+  border-left: 1px solid var(--border);
+}
+
+.vt-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--off);
+  margin-bottom: 24px;
+}
+
+.vt-features { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+
+.vt-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--muted2);
+  line-height: 1.5;
+}
+
+.vt-features svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 2.5;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* --- Vault Footer (The Premium CTA Bar) --- */
+.vault-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  background: rgba(201,168,76,0.03);
+  border-top: 1px solid var(--border);
+}
+
+.vf-info {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .vault-body { grid-template-columns: 1fr; gap: 40px; padding: 40px; }
+  .vault-target { padding-left: 0; border-left: none; border-top: 1px solid var(--border); padding-top: 40px; }
+  .vault-header { padding: 32px 40px; }
+  .vault-footer { padding: 24px 40px; }
+}
+
+@media (max-width: 768px) {
+  .vault-modules { grid-template-columns: 1fr; }
+  .vault-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .vault-footer { flex-direction: column; gap: 20px; align-items: flex-start; }
+}
+
+
+/* ============================================================
+   FINAL MILLION-DOLLAR CTA
+============================================================ */
+.final-cta-section {
+  padding: 160px 64px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2); /* Slightly darker background to make the glow pop */
+}
+
+/* The Ambient Gold Core */
+.cta-glow-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.position-relative { position: relative; z-index: 2; }
+
+/* The Luxury Badge */
+.cta-badge {
+  display: inline-block;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  border: 1px solid var(--gold-border);
+  background: var(--gold-dim);
+  padding: 8px 20px;
+  border-radius: 40px;
+  margin-bottom: 32px;
+}
+
+/* Massive Closing Typography */
+.cta-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  font-weight: 900;
+  color: var(--off);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.cta-h2 em {
+    color: var(--gold);
+    font-style: italic;
+}
+
+.cta-p {
+  font-size: 1.1rem;
+  color: var(--muted2);
+  max-width: 600px;
+  line-height: 1.8;
+  font-weight: 300;
+  margin-bottom: 48px;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .final-cta-section { padding: 100px 32px; }
+  .cta-glow-orb { width: 500px; height: 500px; }
+}
+
+
+
+/* ============================================================
+   OUTCOMES: ASYMMETRICAL BENTO BOX
+============================================================ */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.bento-card {
+  position: relative;
+  background: rgba(255,255,255,0.015);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-border);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Background Gradients for Wide Cards */
+.bento-bg-gradient {
+  position: absolute;
+  top: -50%;
+  left: -20%;
+  width: 70%;
+  height: 150%;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Grid Spanning Classes */
+.bento-wide { grid-column: span 2; }
+.bento-massive { grid-column: span 3; }
+
+/* Icon Styling */
+.bento-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s ease;
+}
+
+.bento-card:hover .bento-icon { transform: scale(1.1); }
+.bento-icon svg { width: 22px; height: 22px; }
+
+/* Typography */
+.bento-content { position: relative; z-index: 1; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+.bento-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--off); margin-bottom: 12px; line-height: 1.2; }
+.bento-text { font-size: 0.95rem; color: var(--muted2); line-height: 1.7; }
+
+/* --- Micro-Elements (The Million Dollar Details) --- */
+
+/* Massive Watermark */
+.bento-watermark {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 8rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  line-height: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Visual Progress Bar */
+.bento-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  margin-top: 32px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.bp-fill {
+  width: 15%;
+  height: 100%;
+  background: var(--gold);
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--gold);
+  transition: width 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.bento-card:hover .bp-fill { width: 100%; }
+
+/* Gold Stars */
+.bento-stars { display: flex; gap: 4px; margin-top: 16px; }
+.bento-stars svg { width: 16px; height: 16px; fill: var(--gold); stroke: var(--gold); stroke-width: 1; }
+
+/* Live Indicator */
+.bento-flex-header { display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1; }
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #ff4a4a;
+  background: rgba(255, 74, 74, 0.1);
+  border: 1px solid rgba(255, 74, 74, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+}
+.pulse-dot { width: 6px; height: 6px; background: #ff4a4a; border-radius: 50%; box-shadow: 0 0 8px #ff4a4a; animation: pulse-red 1.5s infinite; }
+@keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .bento-grid { grid-template-columns: repeat(2, 1fr); }
+  .bento-wide { grid-column: span 2; }
+  .bento-massive { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-wide, .bento-massive { grid-column: span 1; }
+  .bento-card { padding: 32px; }
+}
+
+
+/* ============================================================
+   ALIGNMENT SECTION (For You / Not For You)
+============================================================ */
+.alignment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.align-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.align-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Header Styling */
+.align-header {
+  padding: 24px;
+  text-align: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Positive Card (Gold Theme) */
+.align-positive {
+  border-color: rgba(201,168,76,0.3);
+  box-shadow: 0 10px 40px rgba(201,168,76,0.03);
+}
+
+.align-positive .align-header {
+  background: var(--gold-dim);
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold-border);
+}
+
+.align-positive .align-icon {
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+}
+
+/* Negative Card (Muted/Crimson Theme) */
+.align-negative {
+  opacity: 0.9; /* Slightly fades the negative card to draw focus to the positive one */
+}
+
+.align-negative .align-header {
+  background: rgba(255,255,255,0.02);
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.align-negative .align-icon {
+  color: #ff5e5e; /* A premium, soft crimson red */
+  background: rgba(255, 94, 94, 0.1);
+}
+
+/* List Styling */
+.align-list {
+  padding: 40px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.align-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.align-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.align-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.align-list p {
+  color: var(--off);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 900px) {
+  .alignment-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .align-list {
+    padding: 32px 24px;
+    gap: 24px;
+  }
+}
+
+
+
+/* ============================================================
+   FAQ ACCORDION (Dark Pill Design)
+============================================================ */
+.faq-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Spacing between the blocks */
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.03); /* Solid dark grey like the image */
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--gold-border);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.faq-header {
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.faq-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  color: var(--off);
+  font-weight: 500;
+  max-width: 90%;
+  transition: color 0.3s ease;
+}
+
+.faq-item:hover .faq-title {
+  color: var(--gold2);
+}
+
+/* The Circular + Icon */
+.faq-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08); /* Lighter grey circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--muted2);
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  flex-shrink: 0;
+}
+
+/* Active State (When Opened) */
+.faq-item.active {
+  border-color: var(--gold-border);
+  background: rgba(201, 168, 76, 0.03); /* Very subtle gold tint */
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg); /* Turns the + into an x */
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.faq-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.faq-content {
+  padding: 0 32px 32px 32px;
+  color: var(--muted2);
+  font-size: 1rem;
+  line-height: 1.8;
+  border-top: 1px solid transparent; 
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .faq-header { padding: 20px; }
+  .faq-title { font-size: 1rem; }
+  .faq-content { padding: 0 20px 24px 20px; font-size: 0.95rem; }
+  .faq-icon { width: 30px; height: 30px; font-size: 1rem; }
+}

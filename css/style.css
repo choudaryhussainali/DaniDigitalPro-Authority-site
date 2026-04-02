@@ -1542,6 +1542,142 @@ nav.scrolled {
 }
 .cta-contact a:hover { color: var(--gold); }
 
+
+/* ============================================================
+   THE ACADEMY (TRAININGS LIST)
+============================================================ */
+.training-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.training-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 60px;
+  gap: 40px;
+  padding: 48px 32px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* The Invisible Background Glow */
+.tr-bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+.training-row:hover .tr-bg-glow { opacity: 1; }
+.training-row:hover { border-bottom-color: var(--gold-border); }
+
+/* Grid Items Z-index */
+.tr-num, .tr-content, .tr-arrow {
+  position: relative;
+  z-index: 1;
+}
+
+/* The Numbers */
+.tr-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--muted);
+  transition: color 0.4s ease;
+}
+.training-row:hover .tr-num { color: var(--gold); }
+
+/* The Title & Desc */
+.tr-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--off);
+  margin-bottom: 12px;
+  line-height: 1.2;
+  transition: color 0.4s ease, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.training-row:hover .tr-title {
+  color: var(--gold2);
+  transform: translateX(10px); /* Smooth slide right */
+}
+
+.tr-desc {
+  font-size: 0.95rem;
+  color: var(--muted2);
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 24px;
+  font-weight: 300;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.training-row:hover .tr-desc { transform: translateX(10px); }
+
+/* The Tags */
+.tr-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.training-row:hover .tr-tags { transform: translateX(10px); }
+
+.tr-tags span {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: all 0.4s ease;
+}
+.training-row:hover .tr-tags span {
+  background: var(--gold-dim);
+  border-color: var(--gold-border);
+  color: var(--gold2);
+}
+
+/* The Snapping Arrow */
+.tr-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.tr-arrow svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--muted);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.training-row:hover .tr-arrow svg {
+  stroke: var(--gold);
+  transform: translateX(15px) scale(1.1); /* The Premium Snap */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .training-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 32px 0;
+  }
+  .tr-title { font-size: 1.8rem; }
+  .tr-arrow { display: none; } /* Hide arrow on mobile to save space */
+  .training-row:hover .tr-title, 
+  .training-row:hover .tr-desc, 
+  .training-row:hover .tr-tags { transform: none; } /* Disable shift on mobile */
+}
+
 /* ============================================================
    FOOTER
 ============================================================ */
